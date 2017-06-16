@@ -1,37 +1,21 @@
-## Welcome to GitHub Pages
+## PiHat
 
-You can use the [editor on GitHub](https://github.com/bobmonkeywarts/pihatwebsite/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+This is the website for the PiHat. It is my project that I am entering in the Seattle MiniMakerFaire. The hat is a wearable device equiped with a raspberry pi that can answer questions, define words, translate, etc. Lots of the software is already finished, however the hardware will be done soon. The project is in a bulky magician's hat, however if accepted into the Maker Faire I am willing to increase my bujdget to make it smaller and have it as a neclace. This is a list of all the things it can do so far:
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+1. chatbot (uses a slightly customized version of API.AI's smalltalk)
 
-### Markdown
+2. current weather conditions (e.g. "what's the weather like here?")
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+3. date/time/timers (e.g. "Set a timer for 4 minutes.", "what's the date")
 
-```markdown
-Syntax highlighted code block
+4. read xkcd transcripts (e.g. "Read me xkcd number 486", "Read me the current XKCD
 
-# Header 1
-## Header 2
-### Header 3
+5. define words (thesaurus coming soon! Like today soon!) (e.g "define hat")
 
-- Bulleted
-- List
+6. translations fron English into most languages supported by Espeak (Powered by [Yandex Translate](http://translate.yandex.com)). (e.g. translate "hello" to Esperanto)
 
-1. Numbered
-2. List
+7. Repeaat what you say (e.g. "say hello")
 
-**Bold** and _Italic_ and `Code` text
+8. Summon Cthulu (it says "ok, summoning Cthulu now and then screams in a suddenly deep voice, PN'NGLU MGL'NAFH CTHULU R'LYEH WGAH'NAGL FHTAGN).
 
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/bobmonkeywarts/pihatwebsite/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+More features coming soon! And pictures and videos!
