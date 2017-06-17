@@ -1,4 +1,5 @@
 import urllib2, urllib, json, datetime, os.path, sys, os, re, random
+import speech_recognition as sr
 from time import sleep
 from yandex_translate import YandexTranslate
 from threading import Thread
@@ -72,9 +73,30 @@ def chatbot(arg):
 	say(rope)
 
 
+r = sr.Recognizer()
+#r.energy_threshold = 3000
 while True:
 	try:
-		input = raw_input("").lower()
+
+		# obtain audio from the microphone
+		with sr.Microphone() as source:
+			print("Say something!")
+			audio = r.listen(source)
+
+		# recognize speech using Google Speech Recognition
+		try:
+			# for testing purposes, we're just using the default API key
+			# to use another API key, use `r.recognize_google(audio, key="GOOGLE_SPEECH_RECOGNITION_API_KEY")`
+			# instead of `r.recognize_google(audio)`
+			input = r.recognize_google(audio).lower()
+			print ("I think you said: ") + input
+		except sr.UnknownValueError:
+    			print("Google Speech Recognition could not understand audio")
+		except sr.RequestError as e:
+			print("Could not request results from Google Speech Recognition service; {0}".format(e))
+
+
+#		input = raw_input("").lower()
 	
 		weather = ["what's the weather", "what's the weather like", "how's the weather", "what's the weather like today", "what's the weather like here", "what is the weather", "what is the weather like", "what is the weather like today", "what is the weather like here"]
 		timeis = ["what time is it", "what's the time", "what is the time"]

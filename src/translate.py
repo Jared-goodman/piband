@@ -14,6 +14,8 @@ for l in languages:
 		language = l
 		containsLanguage = True
 		end = inputtext.index("to " + l)
+		if "into" in inputtext:
+			end = inputtext.index("into " + l)
 
 if "to english" in inputtext and inputtext.index("to english")+10 == len(inputtext):
 	print("Sorry, but I can only translate to other languages as my speech recognition is english-only.")
