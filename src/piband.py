@@ -2,7 +2,6 @@ import urllib2, urllib, json, datetime, os.path, sys, os, re, random
 import speech_recognition as sr
 from time import sleep
 from gpiozero import LED, Button
-from yandex_translate import YandexTranslate
 from threading import Thread
 
 try:
@@ -78,6 +77,7 @@ r = sr.Recognizer()
 #r.energy_threshold = 3000
 button = Button(13)
 led = LED(4)
+say("Powered on. Press the button to start.")
 while True:
 	try:
 		
@@ -303,6 +303,8 @@ while True:
 			toSay = "About " + str(int(random.random()*100)+1) + " percent of statistics are made up on the spot."
 			print toSay
 			say(toSay)
+		elif ("how" in input or "when" in input or "what" in input) and not "you" in input:
+			os.system("echo \"" + input + "\" | python3 wa.py")
 		else:
 			chatbot(input)
 	except SystemExit:
