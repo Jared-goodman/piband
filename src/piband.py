@@ -1,6 +1,7 @@
 import urllib2, urllib, json, datetime, os.path, sys, os, re, random
 import speech_recognition as sr
 from time import sleep
+from gpiozero import LED, Button
 from yandex_translate import YandexTranslate
 from threading import Thread
 
@@ -75,14 +76,18 @@ def chatbot(arg):
 
 r = sr.Recognizer()
 #r.energy_threshold = 3000
+button = Button(13)
+led = LED(4)
 while True:
 	try:
-
+		
 		# obtain audio from the microphone
+		button.wait_for_press()
+		led.off()
 		with sr.Microphone() as source:
 			print("Say something!")
 			audio = r.listen(source)
-
+		led.on()
 		# recognize speech using Google Speech Recognition
 		try:
 			# for testing purposes, we're just using the default API key
@@ -223,6 +228,10 @@ while True:
 		elif input in playplaylist:
 			os.system("python playsongs.py")
 
+		elif "exit" == input:
+			say("Ok! Exiting...")
+			sys.exit(0)
+
 		elif "say" in input:
 			say(input[input.index("say")+3:])
 		elif "xkcd" in input:
@@ -296,5 +305,7 @@ while True:
 			say(toSay)
 		else:
 			chatbot(input)
+	except SystemExit:
+		sys.exit(0)  #This is basically saying: If a systemexit exception is thrown, throw a systemexit exception
 	except:   #me being a lazy programmer
 		print "Sorry, that cannot be done. Please try again."
