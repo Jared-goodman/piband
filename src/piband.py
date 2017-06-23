@@ -12,6 +12,9 @@ except ImportError:
 	)
 	import apiai
 
+def beep():
+	os.system("aplay sounds/beep.wav")
+
 def say(txt):
 	os.system("espeak -ven+f4 \"" + txt + "\"")
 
@@ -77,6 +80,7 @@ r = sr.Recognizer()
 #r.energy_threshold = 3000
 button = Button(13)
 led = LED(4)
+led.on()
 say("Powered on. Press the button to start.")
 while True:
 	try:
@@ -88,6 +92,8 @@ while True:
 			print("Say something!")
 			audio = r.listen(source)
 		led.on()
+		thread = Thread(target = beep, args = ())
+		thread.start()
 		# recognize speech using Google Speech Recognition
 		try:
 			# for testing purposes, we're just using the default API key
@@ -290,11 +296,11 @@ while True:
 		elif "how many genders are there" in input:
 			print "Some people say two, some people say eighty-someting. I will stay netural in this issue."
 			say("Some people say two, some people say eighty-something. I will stay netural in this issue.")
-		elif "summon cthulu" in input:
-			print "Ok. Summoning Chtulu now..."
+		elif "cthulhu" in input:
+			print "Ok. Summoning cthulhu now..."
 			say("Ok. Summoning Cuhtulu now...")
-			os.system("aplay cthulu/cthulu.wav")
-			print "Cthulu successfuly summoned."
+			os.system("aplay sounds/cthulu.wav")
+			print "cthulhu successfuly summoned."
 			say("Cuthulu successfuly summoned.")
 		elif "how many popes per square mile" in input:
 			print "There are about 5.9 popes per square mile in Vatican City."
@@ -311,3 +317,4 @@ while True:
 		sys.exit(0)  #This is basically saying: If a systemexit exception is thrown, throw a systemexit exception
 	except:   #me being a lazy programmer
 		print "Sorry, that cannot be done. Please try again."
+		say("Sorry, an error occured. Can you say that again?")
