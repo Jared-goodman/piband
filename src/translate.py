@@ -19,6 +19,7 @@ for l in languages:
 
 if "to english" in inputtext and inputtext.index("to english")+10 == len(inputtext):
 	print("Sorry, but I can only translate to other languages as my speech recognition is english-only.")
+	os.system("espeak -ven+f2 \"Sorry, an error occured while translating. Can you say that again?\"")
 	sys.exit(0)
 
 
@@ -26,6 +27,8 @@ if not containsLanguage:
 	end = len(inputtext)
 #	language = input("Please tell me the language you want to translate. Supported languages are spanish, esperanto, french, russian, mandarin chineese, german, and polish.")
 	print ("Sorry, you must specify a language, such as saying \"translate hello to esperanto.\"")
+	os.system("espeak -ven+f2 \"Sorry, an error occured while translating. Can you say that again?\"")
+
 	sys.exit(0)
 while (language not in languages):
 	language = input("I\'m sorry, that is not a supported language. Please tell me a supported language.")

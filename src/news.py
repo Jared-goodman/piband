@@ -1,7 +1,8 @@
 #This is a demonstration of a simple script that gets news from an API and tells them to you.
 import urllib2
 import os
-sources = open("newssource.txt")
+os.system("espeak -ven+f4 \"news script running\"")
+sources = open("/home/pi/piband/src/newssource.txt")
 rope = str(sources.read())
 temp = ""
 ar = []

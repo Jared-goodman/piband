@@ -13,7 +13,7 @@ except ImportError:
 	import apiai
 
 def beep():
-	os.system("aplay sounds/beep.wav")
+	os.system("aplay /home/pi/piband/src/sounds/beep.wav")
 
 def say(txt):
 	os.system("espeak -ven+f4 \"" + txt + "\"")
@@ -138,7 +138,7 @@ while True:
 			time = str(datetime.datetime.now().time())
 			hour = time[0:time.index(":")]
 			time = time[time.index(":")+1:]
-			if hour>12:
+			if int(hour)>12:
 				hour = str(int(hour) -12)
 			minute = time[0:time.index(":")]
 			print "The time is " + hour + ":" + minute
@@ -220,19 +220,28 @@ while True:
 		                                if input[index] == ' ':
 		                                        spaces = spaces + 1
 		                                index = index - 1
-		                        num = input[index+2:]
+		                        num = input[index+2:input.index("second")]
 		                        #num = num[0:num.index(' ')]
 		                        print num
 					seconds = int(num)
-				sum = hours*3600 + minutes*60 + seconds
-				toSay = "Timer set for " + hours + " hours " + minutes + " minutes " + seconds + " seconds"
+				print "about to find sum"
+				print "hours: " + str(hours)
+				print "minutes: " + str(minutes)
+				print "seconds: " + str(seconds)
+				print type(hours)
+				print type(minutes)
+				print type(seconds)
+				
+				total = hours*3600 + minutes*60 + seconds
+				print "sum: " + str(total)
+				toSay = "Timer set for " + str(hours) + " hours " + str(minutes) + " minutes " + str(seconds) + " seconds"
 				print toSay
 				say(toSay)
-				thread = Thread(target = timer, args = (sum, ))
+				thread = Thread(target = timer, args = (total, ))
 				thread.start()
 
 		elif input in playplaylist:
-			os.system("python playsongs.py")
+			os.system("python /home/pi/piband/src/playsongs.py")
 
 		elif "exit" == input:
 			say("Ok! Exiting...")
@@ -282,16 +291,19 @@ while True:
 				say("word not found")
 		elif "synonym" in input or "antonym" in input:
 			if "of" in input:
-				os.system("echo \"" + input[input.index("of")+3:] + "\" | python thesaurus.py")
+				os.system("echo \"" + input[input.index("of")+3:] + "\" | python /home/pi/piband/src/thesaurus.py")
 			elif "for" in input:
-				os.system("echo \"" + input[input.index("for")+4:] + "\" | python thesaurus.py")
+				os.system("echo \"" + input[input.index("for")+4:] + "\" | python /home/pi/piband/src/thesaurus.py")
 
 		elif input[0:6] == "script": #excecutes script, similar to an alexa skill but for the piband which is better because I made it
-			print ("excecuting python script \"" + input[7:] + ".py\"...")
-			os.system("python " + input[7:] + ".py")
+			print ("excecuting python script \"" + input[6:] + ".py...")
+			say("Excecuting the " + input[6:] + " script...")
+			input = input.replace(" ", "")
+			print "." + input[6:] + "."
+			os.system("python /home/pi/piband/src/" + input[6:] + ".py") #not very portable but whatever shut your facehole
 
 		elif "translate" in input:
-			os.system("echo \"" + input + "\" | python3 translate.py")
+			os.system("echo \"" + input + "\" | python3 /home/pi/piband/src/translate.py")
 
 		elif "how many genders are there" in input:
 			print "Some people say two, some people say eighty-someting. I will stay netural in this issue."
@@ -299,7 +311,7 @@ while True:
 		elif "cthulhu" in input:
 			print "Ok. Summoning cthulhu now..."
 			say("Ok. Summoning Cuhtulu now...")
-			os.system("aplay sounds/cthulu.wav")
+			os.system("aplay /home/pi/piband/src/sounds/cthulu.wav")
 			print "cthulhu successfuly summoned."
 			say("Cuthulu successfuly summoned.")
 		elif "how many popes per square mile" in input:
@@ -310,11 +322,12 @@ while True:
 			print toSay
 			say(toSay)
 		elif ("how" in input or "when" in input or "what" in input) and not "you" in input:
-			os.system("echo \"" + input + "\" | python3 wa.py")
+			os.system("echo \"" + input + "\" | python3 /home/pi/piband/src/wa.py")
 		else:
 			chatbot(input)
 	except SystemExit:
 		sys.exit(0)  #This is basically saying: If a systemexit exception is thrown, throw a systemexit exception
-	except:   #me being a lazy programmer
+	except Exception as e:   #me being a lazy programmer
 		print "Sorry, that cannot be done. Please try again."
+		print e
 		say("Sorry, an error occured. Can you say that again?")
