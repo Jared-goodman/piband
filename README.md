@@ -1,21 +1,23 @@
 # piband
 This is the website for the Piband, a wearable DIY necklace made with a Raspberry Pi that can answer questions, tell you the news, etc. This is a list of the stuff you can do with it:
 
--timers/alarms/time/date
+-Timers/alarms/time/date
 
--dictionary/thesaurus
+-Dictionary/thesaurus
 
--xkcd transcripts
+-XKCD transcripts
 
--music
+-Music
 
--summoning cthulu
+-Summoning Cthulu (reads the call of Cthulu in a loud scary voice)
 
--news
+-News
 
--translate
+-Translate
 
 -General Knowledge questions (e.g. "what's the capital of Australia", "how many ounces in a cup")
+
+And much, much more coming soon!
 
 And this is a list of all the API's I use:
 
