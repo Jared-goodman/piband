@@ -1,5 +1,5 @@
 # piband
-This is the website for the Piband, a wearable DIY necklace made with a Raspberry Pi that can answer questions, tell you the news, etc. This is a list of the stuff you can do with it:
+The Piband is a wearable DIY open-source personal assistant made with a Raspberry Pi that can answer lots ofquestions, that can do the following:
 
 -Timers/alarms/time/date
 
