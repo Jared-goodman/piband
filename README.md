@@ -1,5 +1,5 @@
 # piband
-This is the website for the Piband, a wearable DIY neclace made with a Raspberry Pi that can answer questions, tell you the news, etc. This is a list of the stuff you can do with it:
+This is the website for the Piband, a wearable DIY necklace made with a Raspberry Pi that can answer questions, tell you the news, etc. This is a list of the stuff you can do with it:
 
 -timers/alarms/time/date
 
@@ -34,4 +34,4 @@ And this is a list of all the API's I use:
 The Piband is open source and fully customizable and additional scripts can be made by either editing the source code locally or creating python scripts, for example the [news script](https://github.com/bobmonkeywarts/piband/blob/master/src/news.py). This script is in a seperate file and can be started by the main script, piband.py. Then, when the user says "script news", it runs your custom script, making it an ideal platform for makers who want to add on to their virtual assistants.
 
 
-Pictures coming soon! Github repository at https://github.com/bobmonkeywarts/piband
+Video at https://tinyurl.com/piband! Github repository at https://github.com/bobmonkeywarts/piband.
