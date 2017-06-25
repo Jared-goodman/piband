@@ -1,7 +1,9 @@
 # piband
-The Piband is a wearable DIY open-source personal assistant made with a Raspberry Pi that can answer lots ofquestions, that can do the following:
+The Piband is a wearable DIY open-source personal assistant made with a Raspberry Pi that can that can do the following for its users:
 
--Timers/alarms/time/date
+-Set imers/alarms
+
+-time/date
 
 -Dictionary/thesaurus
 
@@ -12,6 +14,10 @@ The Piband is a wearable DIY open-source personal assistant made with a Raspberr
 -Summoning Cthulu (reads the call of Cthulu in a loud scary voice)
 
 -News
+
+-Chatbot
+
+-3rd party scripts
 
 -Translate
 
