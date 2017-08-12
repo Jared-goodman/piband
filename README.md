@@ -43,3 +43,7 @@ The Piband is open source and fully customizable and additional scripts can be m
 
 
 Video at https://tinyurl.com/the-piband! Github repository at https://github.com/bobmonkeywarts/piband.
+
+August 11 edit: The Piband will be in the Seattle Mini Maker faire! After days of work, I have rebuilt the prototype but smaller and more compact (battery life is worse but shut up.) This is a picture of me wearing it:
+
+<img src="WIN_20170811_18_42_41_Pro.jpg" alt="me wearing a hot fasion statement" class="inline"/>
