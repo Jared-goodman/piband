@@ -83,6 +83,7 @@ r = sr.Recognizer()
 button = Button(13)
 led = PWMLED(4)
 led.on()
+first = True
 say("Powered on. Press the button to start.")
 while True:
 	try:
@@ -100,7 +101,9 @@ while True:
 		recfile.stop_recording()
 #		say("Stopped recording")
 		recfile.close()
-#		say("Closed recfile")
+		if(first):
+			say("Closed recfile")
+			first = False
 		led.on()
 		print "recorded audio"
 #		say("About to play sound")
