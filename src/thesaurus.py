@@ -3,6 +3,8 @@ import os
 import sys
 key = "8819e1fa984180cc5ead63d985844309"
 
+def say(text):
+	os.system("pico2wave -w speech.wav \"" + text + "\" && play speech.wav")
 word = raw_input()
 try:
 	response = urllib2.urlopen('http://words.bighugelabs.com/api/2/'+key+'/'+word+'/')
@@ -24,13 +26,13 @@ ar = ar[0:len(ar)-1] #ar has an empty string at the end, this removes it
 print ar
 
 print "Synonyms:"
-os.system("espeak \"Some synonyms for " + word + " are \" -ven+f4")
+say("Some synonyms for " + word + " are ")
 count = 0
 for x in ar:
 	if x[0:3] == "syn":
 		if count%5==0:   #BigHugeThesaurus returns a lot of words and this filters 4/5 of the words out
 			print x[3:]
-			os.system("espeak \"" + x[3:] + "\" -ven+f4")
+			say(x[3:])
 		count = count + 1
 
 
@@ -45,5 +47,5 @@ for x in ar:
 			os.system("espeak -ven+f4 \"Some antonyms for " + word + " are\"")
 
 		print x[3:]
-		os.system("espeak -ven+f4 \"" + x[3:] + "\"")
+		say(x[3:])
 		count = count + 1

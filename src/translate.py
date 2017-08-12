@@ -1,6 +1,9 @@
 inputtext = input()
 from yandex_translate import YandexTranslate
 import os, sys
+
+def say(text):
+	os.system("pico2wave -w speech.wav \"" + text + "\" && play speech.wav")
 key = "trnsl.1.1.20170402T171203Z.69851206a4c59331.b4d7b72f80578f5d857aaff5b52f84628eee54fb" #my API key, if you copy this code PLEASE DO NOT USE THIS KEY, GET YOUR OWN 
 translate = YandexTranslate(key)
 languages = ["spanish", "esperanto", "french", "russian", "chinese", "mandarin", "mandarin chinese", "polish", "german", "afrikaans", "bosnian", "catalan", "czech", "danish", "greek", "finnish", 
@@ -19,7 +22,7 @@ for l in languages:
 
 if "to english" in inputtext and inputtext.index("to english")+10 == len(inputtext):
 	print("Sorry, but I can only translate to other languages as my speech recognition is english-only.")
-	os.system("espeak -ven+f2 \"Sorry, an error occured while translating. Can you say that again?\"")
+	say("Sorry, an error occured while translating. Can you say that again?")
 	sys.exit(0)
 
 
@@ -27,7 +30,7 @@ if not containsLanguage:
 	end = len(inputtext)
 #	language = input("Please tell me the language you want to translate. Supported languages are spanish, esperanto, french, russian, mandarin chineese, german, and polish.")
 	print ("Sorry, you must specify a language, such as saying \"translate hello to esperanto.\"")
-	os.system("espeak -ven+f2 \"Sorry, an error occured while translating. Can you say that again?\"")
+	say("Sorry, an error occured while translating. Can you say that again?")
 
 	sys.exit(0)
 while (language not in languages):
@@ -41,5 +44,5 @@ data = str(data)
 print(data)
 data = data[data.index("[")+2:data.index("]")-2]
 print("\"" + textToTranslate + "\" translated to " + language + " is \"" + data + "\".")
-os.system("espeak \"" + textToTranslate + " translated to " + language + " is\" -ven+f4")
+say(textToTranslate + " translated to " + language + " is ")
 os.system("espeak -v" + languageCode + "+f4 \"" + data + "\"")

@@ -1,8 +1,10 @@
 import urllib2, urllib, json, datetime, os.path, sys, os, re, random
 import speech_recognition as sr
 from time import sleep
-from gpiozero import LED, Button
+from gpiozero import PWMLED, Button
 from threading import Thread
+from recorder import Recorder
+from os import path
 
 try:
 	import apiai
@@ -16,7 +18,7 @@ def beep():
 	os.system("aplay /home/pi/piband/src/sounds/beep.wav")
 
 def say(txt):
-	os.system("espeak -ven+f4 \"" + txt + "\"")
+	os.system("pico2wave -w speech.wav \"" + txt + "\" && play speech.wav")
 
 def timer(seconds):
 	print "timer set"
@@ -79,7 +81,7 @@ def chatbot(arg):
 r = sr.Recognizer()
 #r.energy_threshold = 3000
 button = Button(13)
-led = LED(4)
+led = PWMLED(4)
 led.on()
 say("Powered on. Press the button to start.")
 while True:
@@ -87,13 +89,29 @@ while True:
 		
 		# obtain audio from the microphone
 		button.wait_for_press()
-		led.off()
-		with sr.Microphone() as source:
-			print("Say something!")
-			audio = r.listen(source)
+		led.pulse()
+
+		rec = Recorder(channels=2)
+		recfile = rec.open('/home/pi/piband/src/recording.wav', 'wb')
+		recfile.start_recording()
+#		say("Recording")
+		button.wait_for_release()
+#		say("registered release")
+		recfile.stop_recording()
+#		say("Stopped recording")
+		recfile.close()
+#		say("Closed recfile")
 		led.on()
+		print "recorded audio"
+#		say("About to play sound")
 		thread = Thread(target = beep, args = ())
 		thread.start()
+
+		AUDIO_FILE = path.join(path.dirname(path.realpath(__file__)), "/home/pi/piband/src/recording.wav")
+		r = sr.Recognizer()
+		with sr.AudioFile(AUDIO_FILE) as source:
+			audio = r.record(source)
+		
 		# recognize speech using Google Speech Recognition
 		try:
 			# for testing purposes, we're just using the default API key
@@ -324,10 +342,15 @@ while True:
 		elif ("how" in input or "when" in input or "what" in input) and not "you" in input:
 			os.system("echo \"" + input + "\" | python3 /home/pi/piband/src/wa.py")
 		else:
+#			say("About to use chatbot api")
 			chatbot(input)
 	except SystemExit:
 		sys.exit(0)  #This is basically saying: If a systemexit exception is thrown, throw a systemexit exception
 	except Exception as e:   #me being a lazy programmer
 		print "Sorry, that cannot be done. Please try again."
 		print e
-		say("Sorry, an error occured. Can you say that again?")
+#		say("about to write to log file")
+#		f = open("/home/pi/piband/src/log.txt", "a")
+#		f.write(e + "\n")
+#		say("Sorry, an error occured. Can you say that again?")
+#	say("restarting loop...")
