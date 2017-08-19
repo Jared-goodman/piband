@@ -4,7 +4,7 @@ The Piband is a wearable DIY open-source personal assistant made with a Raspberr
 
 -Set timers/alarms
 
--time/date
+-Time/date
 
 -Dictionary/thesaurus
 
@@ -24,7 +24,7 @@ The Piband is a wearable DIY open-source personal assistant made with a Raspberr
 
 -Email
 
--General Knowledge questions (e.g. "what's the capital of Australia", "how many ounces in a cup")
+-General knowledge questions (e.g. "what's the capital of Australia", "how many ounces in a cup")
 
 And much, much more coming soon!
 
@@ -54,7 +54,7 @@ August 11 edit: The Piband will be in the Seattle Mini Maker faire! After days o
 <img src="WIN_20170811_18_42_41_Pro.jpg" alt="me wearing a hot fasion statement" class="inline"/>
 
 
-Proud to be exhibiting as a maker at Seattle Mini Maker Faire – The greatest show (and tell) on earth—a family-friendly festival of invention, creativity, and resourcefulness, and a celebration of the maker movement.
-Seattle Mini Maker Faire will be held on September 16 & 17, 2017 at Museum of Pop Culture and the Next 50 Plaza of Seattle Center. #MakerFaireSea [link to makerfaireseattle.com]
+Proud to be exhibiting as a maker at <a href="https://seattle.makerfaire.com">Seattle Mini Maker Faire</a> – The greatest show (and tell) on earth—a family-friendly festival of invention, creativity, and resourcefulness, and a celebration of the maker movement.
+Seattle Mini Maker Faire will be held on September 16 & 17, 2017 at Museum of Pop Culture and the Next 50 Plaza of Seattle Center. #MakerFaireSea
 
 <img src="https://i0.wp.com/seattle.makerfaire.com/wp-content/uploads/sites/118/2013/02/seattle_mmf_logos_logo.png?resize=300%2C111" alt="Seattle Mini Maker Faire logo">
