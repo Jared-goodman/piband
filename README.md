@@ -21,9 +21,13 @@ The Piband is a wearable DIY open-source personal assistant made with a Raspberr
 
 -Translate
 
+-Email
+
 -General Knowledge questions (e.g. "what's the capital of Australia", "how many ounces in a cup")
 
 And much, much more coming soon!
+
+To enable emails, make a file in the SRC directory called "fromaddr" with your email and "emailpass" with your password. If you are using Gmail (I'm sure other email providers will make you do this too), make sure to enable less secure apps. To make a contact, make a file in the src directory THAT IS ALL LOWER CASE with the name of the contact as the title and their email address as the content of the file. After all of that, simply say to the PiBand, "Send an email to [contact] saying [your message]." The PiBand will then send the email.
 
 And this is a list of all the API's I use:
 
