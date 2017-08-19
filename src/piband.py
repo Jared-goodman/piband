@@ -1,7 +1,13 @@
-import urllib2, urllib, json, datetime, os.path, sys, os, re, random
+import urllib2, urllib, json, datetime, os.path, sys, os, re, random, subprocess, smtplib
 import speech_recognition as sr
 from time import sleep
 from gpiozero import PWMLED, Button
+from email.MIMEMultipart import MIMEMultipart
+from email.MIMEBase import MIMEBase
+from email.MIMEText import MIMEText
+from email.mime.audio import MIMEAudio
+from email.Utils import COMMASPACE, formatdate
+from email import Encoders
 from threading import Thread
 from recorder import Recorder
 from os import path
@@ -78,12 +84,18 @@ def chatbot(arg):
 	say(rope)
 
 
+
 r = sr.Recognizer()
+print "created r"
 #r.energy_threshold = 3000
 button = Button(13)
+contactemail = ""
 led = PWMLED(4)
 led.on()
+print "created button and led"
 first = True
+sendingemail = False
+print "about to speak"
 say("Powered on. Press the button to start.")
 while True:
 	try:
@@ -212,6 +224,45 @@ while True:
 			say("Alarm set for " + time + " " + ampm)
 			alarm(time)
 
+		if "send" in input and "email" in input:
+			if "send an email to " not in input:
+				say("Sorry, you must specify someone in your contacts, for example by saying send an email to mom saying hello.")
+			else:
+				if "saying" in input:
+					saystring = "saying"
+				elif "that says" in input:
+					saystring = "that says"
+				else:
+					say("Sorry, you must specify a message by for example saying send an email to mom saying hello.")
+					break
+
+				msg = input[input.index(saystring)+len(saystring):]
+				temp = input[len("send an email to "):]
+				contact = temp[0:temp.index(saystring)-1]
+				print contact
+#				say(contact)
+				try:
+					contactfile = open("/home/pi/piband/src/" + contact.lower(), "r")
+					contactemail = contactfile.read()
+					say("Ok. This is the message I will send to " + contact + ":" + msg)
+					print msg
+					fromaddr = open("/home/pi/piband/src/fromaddr", "r").read()
+					emailpass = open("/home/pi/piband/src/emailpass", "r").read()
+					print fromaddr
+					print emailpass
+					msg = "From: " + fromaddr + "\n" + msg
+					server = smtplib.SMTP("smtp.gmail.com", 587)
+					server.ehlo()
+					server.starttls()
+					server.login(fromaddr, emailpass)
+					#Comment out or change the following line to remove or change the email signature.
+					msg = msg + "\nsent from my PiBand"
+					server.sendmail(fromaddr, contactemail, msg)
+					say("Email sent!")
+				except Exception as e:
+					print e
+					say("Sorry, " + contact + " is not in your contacts. Instructions on how to put someone in your contacts are in the readme file.")
+
 		elif "set a timer" in input:
 			if "for" not in input:
 				input = "for " + raw_input("For how long?")
@@ -262,7 +313,7 @@ while True:
 				thread.start()
 
 		elif input in playplaylist:
-			os.system("python /home/pi/piband/src/playsongs.py")
+			os.system("python playsongs.py")
 
 		elif "exit" == input:
 			say("Ok! Exiting...")

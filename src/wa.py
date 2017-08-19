@@ -13,4 +13,4 @@ print(data)
 data = data.replace("\"", " inches ").replace("'", " feet ").replace('\\', " ")
 
 print(data)
-os.system("espeak -ven+f2 \"" + data + "\"")
+os.system("pico2wave -w speech.wav \"" + data + "\" && play speech.wav")
