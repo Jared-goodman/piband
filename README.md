@@ -44,6 +44,8 @@ And this is a list of all the API's I use:
 
 -[Newsapi.org](https://newsapi.org)
 
+-[Google speech recognition](https://github.com/Uberi/speech_recognition)
+
 The Piband is open source and fully customizable and additional scripts can be made by either editing the source code locally or creating python scripts, for example the [news script](https://github.com/bobmonkeywarts/piband/blob/master/src/news.py). This script is in a seperate file and can be started by the main script, piband.py. Then, when the user says "script news", it runs your custom script, making it an ideal platform for makers who want to add on to their virtual assistants.
 
 
