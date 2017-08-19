@@ -52,3 +52,9 @@ Video at https://tinyurl.com/the-piband! Github repository at https://github.com
 August 11 edit: The Piband will be in the Seattle Mini Maker faire! After days of work, I have rebuilt the prototype but smaller and more compact (battery life is worse but shut up.) This is a picture of me wearing it:
 
 <img src="WIN_20170811_18_42_41_Pro.jpg" alt="me wearing a hot fasion statement" class="inline"/>
+
+
+Proud to be exhibiting as a maker at Seattle Mini Maker Faire – The greatest show (and tell) on earth—a family-friendly festival of invention, creativity, and resourcefulness, and a celebration of the maker movement.
+Seattle Mini Maker Faire will be held on September 16 & 17, 2017 at Museum of Pop Culture and the Next 50 Plaza of Seattle Center. #MakerFaireSea [link to makerfaireseattle.com]
+
+<img src="https://i0.wp.com/seattle.makerfaire.com/wp-content/uploads/sites/118/2013/02/seattle_mmf_logos_logo.png?resize=300%2C111" alt="Seattle Mini Maker Faire logo">
