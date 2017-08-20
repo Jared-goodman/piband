@@ -7,9 +7,9 @@ def say(text):
 key = "trnsl.1.1.20170402T171203Z.69851206a4c59331.b4d7b72f80578f5d857aaff5b52f84628eee54fb" #my API key, if you copy this code PLEASE DO NOT USE THIS KEY, GET YOUR OWN 
 translate = YandexTranslate(key)
 languages = ["spanish", "esperanto", "french", "russian", "chinese", "mandarin", "mandarin chinese", "polish", "german", "afrikaans", "bosnian", "catalan", "czech", "danish", "greek", "finnish", 
-"croatian", "hungarian", "italian", "kannada", "latvian", "dutch", "portuguese", "kurdish", "romanian", "slovak", "serbian", "swedish", "swahili", "tamil", "turkish", "welsh", "hindi", "armenian", "indonesian", "icelandic", "georgian", "latin", "macedonian", "norwegian", "albanian", "vietnamese"]
+"croatian", "hungarian", "italian", "kannada", "latvian", "dutch", "portuguese", "kurdish", "romanian", "slovak", "serbian", "swedish", "swahili", "tamil", "turkish", "welsh", "hindi", "armenian", "indonesian", "icelandic", "georgian", "latin", "macedonian", "norwegian", "albanian", "vietnamese", "morse"]
 languageCodes = ["es", "eo", "fr", "ru", "zh", "zh", "zh", "pl", "de", "af", "bs", "ca", "cs", "da", "el", "fi", "hr", "hu", "it", "kn", "lv", "nl", "pt", "ku", "ro", "sk", "sr", "sv", "sw", "ta", "tr",
-"cy", "hi", "hy", "id", "is", "ka", "la", "mk", "no", "sq", "vi"]
+"cy", "hi", "hy", "id", "is", "ka", "la", "mk", "no", "sq", "vi", "mo"] #mo stands for morse code
 containsLanguage = False
 for l in languages:
 	temp = "to " + l
@@ -37,6 +37,10 @@ while (language not in languages):
 	language = input("I\'m sorry, that is not a supported language. Please tell me a supported language.")
 
 textToTranslate = inputtext[inputtext.index("translate")+10:end]
+if language == "morse":
+#	say("Detected morse language!")
+	print("Detected morse language!")
+	os.system("echo \"" + textToTranslate + "\" | python /home/pi/piband/src/morse.py")
 languageCode = languageCodes[languages.index(language)]
 data = translate.translate(textToTranslate, "en-"+ languageCode)
 #print(data)
