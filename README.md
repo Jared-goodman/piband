@@ -1,10 +1,11 @@
 # piband
 <img src="piband parts.png" alt="a picture of the piband with it's parts labeled">
 The Piband is a wearable DIY open-source personal assistant made with a Raspberry Pi that can that can do the following for its users:
-<a title="web statistics" href="http://statcounter.com/"
+<a href="http://statcounter.com/"
 target="_blank"><img
 src="//c.statcounter.com/11427626/0/94de70f0/1/" alt="web
 statistics" style="border:none;"></a>
+
 -Set timers/alarms
 
 -Time/date
