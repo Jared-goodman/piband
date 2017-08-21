@@ -1,23 +1,10 @@
 # piband
 <img src="piband parts.png" alt="a picture of the piband with it's parts labeled">
 The Piband is a wearable DIY open-source personal assistant made with a Raspberry Pi that can that can do the following for its users:
-<!-- Start of StatCounter Code for Default Guide-->
-<script type="text/javascript">
-var sc_project=11427626; 
-var sc_invisible=1; 
-var sc_security="94de70f0"; 
-var scJsHost = (("https:" == document.location.protocol) ?
-"https://secure." : "http://www.");
-document.write("<sc"+"ript type='text/javascript' src='" +
-scJsHost+
-"statcounter.com/counter/counter.js'></"+"script>");
-</script>
-<noscript><div class="statcounter"><a title="web statistics"
-href="http://statcounter.com/" target="_blank"><img
-class="statcounter"
+<a title="web statistics" href="http://statcounter.com/"
+target="_blank"><img
 src="//c.statcounter.com/11427626/0/94de70f0/1/" alt="web
-statistics"></a></div></noscript>
-<!-- End of StatCounter Code for Default Guide -->
+statistics" style="border:none;"></a>
 -Set timers/alarms
 
 -Time/date
