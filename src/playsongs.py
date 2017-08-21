@@ -1,31 +1,24 @@
-import os, sys
+import os, sys, subprocess
 import glob
 from threading import Thread
 from gpiozero import Button
 from random import shuffle
 
-def waitforpress():
-	button = Button(13)
-	button.wait_for_press()
-	print("Button pressed! Stopping songs...")
 
-
+button = Button(13)
 def playSongs():
 	songs = []
-	for file in glob.glob("/home/pi/piband/src/*.mp3"):
+	for file in glob.glob("music/*.mp3"):
 		songs.append(file)
 	
-	for file in glob.glob("/home/pi/piband/src/*.wav"):
+	for file in glob.glob("music/*.wav"):
 		songs.append(file)
 	
 	shuffle(songs)
-	
+	print songs	
 	for x in songs:
+		print x
 		os.system("play \"" + x + "\"")
 
-thread = Thread(target = playSongs, args = ())
-thread.daemon = False
-thread.start()
-#waitforpress()
+playSongs()
 
-sys.exit()

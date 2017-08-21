@@ -1,13 +1,15 @@
-import urllib2, urllib, json, datetime, os.path, sys, os, re, random, subprocess, smtplib
+import urllib2, urllib, json, datetime, os.path, sys, os, re, random, subprocess, weather
 import speech_recognition as sr
+from dictionary import find
+from cthulhu import summon
+from xkcd import readxkcd
+from thesaurus import thesaurus
+from speech import say
+from wolfram import lookup
+from chatbot import chatbot
+from sendemail import send
 from time import sleep
 from gpiozero import PWMLED, Button
-from email.MIMEMultipart import MIMEMultipart
-from email.MIMEBase import MIMEBase
-from email.MIMEText import MIMEText
-from email.mime.audio import MIMEAudio
-from email.Utils import COMMASPACE, formatdate
-from email import Encoders
 from threading import Thread
 from recorder import Recorder
 from os import path
@@ -23,8 +25,6 @@ except ImportError:
 def beep():
 	os.system("aplay /home/pi/piband/src/sounds/beep.wav")
 
-def say(txt):
-	os.system("pico2wave -w speech.wav \"" + txt + "\" && play speech.wav")
 
 def timer(seconds):
 	print "timer set"
@@ -37,51 +37,6 @@ def alarm(time):
 
 	print "Alarm finished!"
 	say("Alarm finished! Alarm finished! Alarm finished!")
-
-def find(x):     #simple dictionary code copy-pasted from stack overflow
-    srch=str(x)
-    x=urllib2.urlopen("http://dictionary.reference.com/browse/"+srch+"?s=t")
-    x=x.read()
-    items=re.findall('<meta name="description" content="'+".*$",x,re.MULTILINE)
-    for x in items:
-        y=x.replace('<meta name="description" content="','')
-        z=y.replace(' See more."/>','')
-        m=re.findall('at Dictionary.com, a free online dictionary with pronunciation,              synonyms and translation. Look it up now! "/>',z)
-        if m==[]:
-            if z.startswith("Get your reference question answered by Ask.com"):
-                print "Word not found! :("
-		say ("Word not found")
-            else:
-                z = z[z.index(',')+2:z.index("See more")]
-               # print z
-		say(z)
-                return z
-
-
-CLIENT_ACCESS_TOKEN = 'f1f4bd11d9b84401aa53684d6f8833d0'
-
-
-def chatbot(arg):
-	ai = apiai.ApiAI(CLIENT_ACCESS_TOKEN)
-
-	request = ai.text_request()
-
-	request.lang = 'en'  # optional, default value equal 'en'
-
-	request.session_id = "<SESSION ID, UNIQUE FOR EACH USER>"
-
-	request.query = arg
-
-	response = request.getresponse()
-
-	rope = str(response.read())
-
-	rope = rope[rope.index("speech")+10:]
-
-	rope = rope[0:rope.index("\"")]
-
-	print rope
-	say(rope)
 
 
 
@@ -107,12 +62,10 @@ while True:
 		rec = Recorder(channels=2)
 		recfile = rec.open('/home/pi/piband/src/recording.wav', 'wb')
 		recfile.start_recording()
-#		say("Recording")
 		button.wait_for_release()
-#		say("registered release")
 		recfile.stop_recording()
-#		say("Stopped recording")
 		recfile.close()
+		#I have no idea why, but this line makes it work. https://github.com/bobmonkeywarts/piband/issues/1
 		if(first):
 			say("Closed recfile")
 			first = False
@@ -136,56 +89,20 @@ while True:
 			print ("I think you said: ") + input
 		except sr.UnknownValueError:
     			print("Google Speech Recognition could not understand audio")
+			say("Sorry, I couldn't understand that. Can you try saying it again in a quiter place?")
 		except sr.RequestError as e:
+			say("Please check your internet connection and try again.")
 			print("Could not request results from Google Speech Recognition service; {0}".format(e))
 
 
 #		input = raw_input("").lower()
 	
-		weather = ["what's the weather", "what's the weather like", "how's the weather", "what's the weather like today", "what's the weather like here", "what is the weather", "what is the weather like", "what is the weather like today", "what is the weather like here"]
-		timeis = ["what time is it", "what's the time", "what is the time"]
-		dateis = ["what day is it", "what's the date", "what is the date", "what day is it today", "what's the date today", "what is the date today"]
-		playplaylist = ["play some music", "play music", "play a playlist", "play my playlist"]
 
-		if input in weather:
-			baseurl = "https://query.yahooapis.com/v1/public/yql?"
-			yql_query = "select item.condition from weather.forecast where woeid in (select woeid from geo.places(1) where text=\"seattle\")"
-			yql_url = baseurl + urllib.urlencode({'q':yql_query}) + "&format=json"
-			result = urllib2.urlopen(yql_url).read()
-			data = json.loads(result)
-			raw =  str(data['query']['results']).lower()
-			#print raw
-			tempvar = raw[raw.index("u\'temp\'")+11:]
-			#print tempvar
-			tempvar = tempvar[0:tempvar.index("\'")]
-			toPrint =  "In your current location, it is " + tempvar + " degrees "
-			#print toPrint
-			tempvar = raw[raw.index("u\'text\'")+11:]
-			tempvar = tempvar[0:tempvar.index("\'")]
-			#print tempvar
-			toPrint = toPrint + "and it is " + tempvar + " outside."
-			print toPrint
-			say (toPrint)
+		if "weather" in input:
+			weather.conditions()#Reads current conditions out loud
 
-		elif input in timeis:
-			time = str(datetime.datetime.now().time())
-			hour = time[0:time.index(":")]
-			time = time[time.index(":")+1:]
-			if int(hour)>12:
-				hour = str(int(hour) -12)
-			minute = time[0:time.index(":")]
-			print "The time is " + hour + ":" + minute
-			say("The time is " + hour + ":" + minute)
-
-		elif input in dateis:
-			days = ["sunday", "monday", "tuesday", "wenesday", "thursday", "friday", "saturday"]
-			day = days[int(datetime.datetime.now().strftime("%w"))]
-			months = ["january", "febuary", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"]
-			month = months[int(datetime.datetime.now().strftime("%m"))]
-			toSay = "Today is " + day + ", " + month + datetime.datetime.now().strftime(" %d, 20%y")
-			print toSay
-			say(toSay)
-		elif "set an alarm" in input or "wake me up at " in input:
+		elif "set an alarm" in input or "wake me up at " in input or "timer" in input:
+			'''
 			if "half" in input or "until" in input:
 				print "I'm sorry, but you need to phrase that as a numerical statement, such as saying \"set an alarm for 5:45.\""
 				say("I'm sorry, but you need to phrase that as a nuemrical statemet using non-military time, such as saying set an alarm for five forty five pm.")
@@ -223,137 +140,30 @@ while True:
 			print ("Alarm set for " + time + " " + ampm)
 			say("Alarm set for " + time + " " + ampm)
 			alarm(time)
-
+			'''
+			say("Sorry, but for the Seattle Mini Maker Faire this featuer has been disabled.")
 		if "send" in input and "email" in input:
-			if "send an email to " not in input:
-				say("Sorry, you must specify someone in your contacts, for example by saying send an email to mom saying hello.")
-			else:
-				if "saying" in input:
-					saystring = "saying"
-				elif "that says" in input:
-					saystring = "that says"
-				else:
-					say("Sorry, you must specify a message by for example saying send an email to mom saying hello.")
-					break
-
-				msg = input[input.index(saystring)+len(saystring):]
-				temp = input[len("send an email to "):]
-				contact = temp[0:temp.index(saystring)-1]
-				print contact
-#				say(contact)
-				try:
-					contactfile = open("/home/pi/piband/src/" + contact.lower(), "r")
-					contactemail = contactfile.read()
-					say("Ok. This is the message I will send to " + contact + ":" + msg)
-					print msg
-					fromaddr = open("/home/pi/piband/src/fromaddr", "r").read()
-					emailpass = open("/home/pi/piband/src/emailpass", "r").read()
-					print fromaddr
-					print emailpass
-					msg = "From: " + fromaddr + "\n" + msg
-					server = smtplib.SMTP("smtp.gmail.com", 587)
-					server.ehlo()
-					server.starttls()
-					server.login(fromaddr, emailpass)
-					#Comment out or change the following line to remove or change the email signature.
-					msg = msg + "\nsent from my PiBand"
-					server.sendmail(fromaddr, contactemail, msg)
-					say("Email sent!")
-				except Exception as e:
-					print e
-					say("Sorry, " + contact + " is not in your contacts. Instructions on how to put someone in your contacts are in the readme file.")
-
-		elif "set a timer" in input:
-			if "for" not in input:
-				input = "for " + raw_input("For how long?")
-
-			if "for" in input:
-				hours = 0
-				minutes = 0
-				seconds = 0
-				if "hour" in input:
-					hours = int(input[input.index("for ") + 4 : input.index("hour")])
-					#print hours
-				if "minute" in input:
-					index = input.index("minute") #right before the number of minutes
-					spaces = 0
-					while spaces<2:
-						if input[index] == ' ':
-							spaces = spaces + 1
-						index = index - 1
-					num = input[index+2:]
-					num = num[0:num.index(' ')]
-					#print num
-					mintues = int(num)
-				if "second" in input:
-					index = input.index("second") #right before the number of seconds
-		                        spaces = 0
-		                        while spaces<2:
-		                                if input[index] == ' ':
-		                                        spaces = spaces + 1
-		                                index = index - 1
-		                        num = input[index+2:input.index("second")]
-		                        #num = num[0:num.index(' ')]
-		                        print num
-					seconds = int(num)
-				print "about to find sum"
-				print "hours: " + str(hours)
-				print "minutes: " + str(minutes)
-				print "seconds: " + str(seconds)
-				print type(hours)
-				print type(minutes)
-				print type(seconds)
-				
-				total = hours*3600 + minutes*60 + seconds
-				print "sum: " + str(total)
-				toSay = "Timer set for " + str(hours) + " hours " + str(minutes) + " minutes " + str(seconds) + " seconds"
-				print toSay
-				say(toSay)
-				thread = Thread(target = timer, args = (total, ))
-				thread.start()
-
-		elif input in playplaylist:
-			os.system("python playsongs.py")
+			send(input)
+		elif "music" in input:
+			#os.system("python playsongs.py")
+			#I don't care about the other exibits, it's just that the music feature was buggy
+			say("Sorry, but for the Seattle Mini Maker Faire this feature has been disabled as it could possibly interfere with other exibits.")
 
 		elif "exit" == input:
 			say("Ok! Exiting...")
 			sys.exit(0)
 
-		elif "say" in input:
-			say(input[input.index("say")+3:])
 		elif "xkcd" in input:
+			#Filters out the numbers in input. Not exactly the prettiest way to do it, but this is my code, not yours, so shut up.
 			nums = "1234567890"
 			comic = ""
-			for x in nums:
-				if x in input:
+			for x in input:
+				if x in nums:
 					comic = comic + x
-
-			if comic == "":
-				if not ("current" in input or "new" in input):
-					comic = raw_input("Please enter the number of the comic...")
-
-
-			data = urllib2.urlopen("https://xkcd.com/" + comic + "/info.0.json")
-			lines = ""
-			for line in data.readlines():
-				lines = lines + line + " "
-
-			#print lines
-			lines = lines[lines.index("transcript"):lines.index(", \"alt\":")]
-			lines = lines.replace("{", "")
-			lines = lines.replace("}", "")
-			lines = lines.replace("\"", "")
-			lines = lines.replace("[", "")
-			lines = lines.replace("]", "")
-			lines = lines.replace("\\n", " ")
-
-			if lines == "transcript: ":
-				print ("There is no transcript avalible for this comic. Please try again later.")
-				say("There is no transcript avalible for this comic. Please try again later.")
-			else:
-				print lines
-				say(lines)
-
+			
+			if "one" in input: #For some reason, the speech recognition software transcribes the number "1" as "one" and all other numbers in standard form.
+				comic = "1"
+			readxkcd(comic)
 		elif "define" in input:
 			try:
 				print find(input[7:])
@@ -363,9 +173,9 @@ while True:
 				say("word not found")
 		elif "synonym" in input or "antonym" in input:
 			if "of" in input:
-				os.system("echo \"" + input[input.index("of")+3:] + "\" | python /home/pi/piband/src/thesaurus.py")
+				thesaurus(input[input.index("of")+3:])
 			elif "for" in input:
-				os.system("echo \"" + input[input.index("for")+4:] + "\" | python /home/pi/piband/src/thesaurus.py")
+				thesaurus(input[input.index("for")+4:])
 
 		elif input[0:6] == "script": #excecutes script, similar to an alexa skill but for the piband which is better because I made it
 			print ("excecuting python script \"" + input[6:] + ".py...")
@@ -375,32 +185,24 @@ while True:
 			os.system("python /home/pi/piband/src/" + input[6:] + ".py") #not very portable but whatever shut your facehole
 
 		elif "translate" in input:
-			os.system("echo \"" + input + "\" | python3 /home/pi/piband/src/translate.py")
+			os.system("echo \"" + input + "\" | python3 /home/pi/piband/src/translate.py") #Translate code needs to be in Python3 because of special characters that Python 2.7 can't handle
 
-		elif "how many genders are there" in input:
-			print "Some people say two, some people say eighty-someting. I will stay netural in this issue."
-			say("Some people say two, some people say eighty-something. I will stay netural in this issue.")
 		elif "cthulhu" in input:
-			print "Ok. Summoning cthulhu now..."
-			say("Ok. Summoning Cuhtulu now...")
-			os.system("aplay /home/pi/piband/src/sounds/cthulu.wav")
-			print "cthulhu successfuly summoned."
-			say("Cuthulu successfuly summoned.")
-		elif "how many popes per square mile" in input:
-			print "There are about 5.9 popes per square mile in Vatican City."
-			say("There are about 5.9 popes per square mile in Vatican City.")
+			summon()
 		elif "statistics made up" in input or "statistics are made up" in input:
 			toSay = "About " + str(int(random.random()*100)+1) + " percent of statistics are made up on the spot."
 			print toSay
 			say(toSay)
 		elif ("how" in input or "when" in input or "what" in input) and not "you" in input:
-			os.system("echo \"" + input + "\" | python3 /home/pi/piband/src/wa.py")
+			lookup(input)
+		elif "say" in input:
+                        say(input[input.index("say")+3:]) #If you want the speech synth to say something
 		else:
 #			say("About to use chatbot api")
 			chatbot(input)
 	except SystemExit:
-		sys.exit(0)  #This is basically saying: If a systemexit exception is thrown, throw a systemexit exception
-	except Exception as e:   #me being a lazy programmer
+		sys.exit(0)  #This is basically saying: If a systemexit exception is thrown, throw a systemexit exception because the whole thing is in a giant try-except statement
+	except Exception as e:   #can't have bugs if all the code is in a try-except statement
 		print "Sorry, that cannot be done. Please try again."
 		print e
 #		say("about to write to log file")
