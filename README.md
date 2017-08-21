@@ -3,8 +3,7 @@
 The Piband is a wearable DIY open-source personal assistant made with a Raspberry Pi that can that can do the following for its users:
 <a href="http://statcounter.com/"
 target="_blank"><img
-src="//c.statcounter.com/11427626/0/94de70f0/1/" alt="web
-statistics" style="border:none;"></a>
+src="//c.statcounter.com/11427626/0/94de70f0/1/" style="border:none;"></a>
 
 -Set timers/alarms
 
