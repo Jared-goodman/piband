@@ -89,7 +89,7 @@ while True:
 			print ("I think you said: ") + input
 		except sr.UnknownValueError:
     			print("Google Speech Recognition could not understand audio")
-			say("Sorry, I couldn't understand that. Can you try saying it again in a quiter place?")
+			say("Sorry, I couldn't understand that. Can you try saying it again?")
 		except sr.RequestError as e:
 			say("Please check your internet connection and try again.")
 			print("Could not request results from Google Speech Recognition service; {0}".format(e))
