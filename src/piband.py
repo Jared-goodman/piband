@@ -4,7 +4,7 @@ from dictionary import find
 from cthulhu import summon
 from xkcd import readxkcd
 from thesaurus import thesaurus
-from speech import say
+from speech import say, saywithplay
 from wolfram import lookup
 from chatbot import chatbot
 from sendemail import send
@@ -69,7 +69,7 @@ while True:
 		if(first):
 			say("Closed recfile")
 			first = False
-		led.on()
+		led.blink(on_time=0.75, off_time=0.75)
 		print "recorded audio"
 #		say("About to play sound")
 		thread = Thread(target = beep, args = ())
@@ -89,7 +89,9 @@ while True:
 			print ("I think you said: ") + input
 		except sr.UnknownValueError:
     			print("Google Speech Recognition could not understand audio")
-			say("Sorry, I couldn't understand that. Can you try saying it again?")
+			led.on()
+			saywithplay("Sorry, I couldn't understand that. Can you try saying it again?") #the say command only creates the speech file, it doesn't play it.
+			continue
 		except sr.RequestError as e:
 			say("Please check your internet connection and try again.")
 			print("Could not request results from Google Speech Recognition service; {0}".format(e))
@@ -197,9 +199,17 @@ while True:
 			lookup(input)
 		elif "say" in input:
                         say(input[input.index("say")+3:]) #If you want the speech synth to say something
+		elif "power off" in input or "turn off" in input:
+			saywithplay("Ok, turning off...")
+			os.system("sudo shutdown now")
+		elif "reboot" in input:
+			saywithplay("Ok, rebooting...")
+			os.system("sudo reboot now")
 		else:
 #			say("About to use chatbot api")
 			chatbot(input)
+		led.on()
+		os.system("play speech.wav")
 	except SystemExit:
 		sys.exit(0)  #This is basically saying: If a systemexit exception is thrown, throw a systemexit exception because the whole thing is in a giant try-except statement
 	except Exception as e:   #can't have bugs if all the code is in a try-except statement

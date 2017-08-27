@@ -1,5 +1,5 @@
 import smtplib
-from speech import say
+from speech import say, saywithplay
 
 def send(input):
 	if "send an email to " not in input:
@@ -23,7 +23,7 @@ def send(input):
                 	try:
 	        	        contactfile = open("/home/pi/piband/src/" + contact.lower(), "r")
 	        	        contactemail = contactfile.read()
-	        	        say("Ok. This is the message I will send to " + contact + ":" + msg)
+	        	        saywithplay("Ok. This is the message I will send to " + contact + ":" + msg)
 	        	        print msg
 	        	        fromaddr = open("/home/pi/piband/src/fromaddr", "r").read()
 	        	        emailpass = open("/home/pi/piband/src/emailpass", "r").read()
