@@ -49,7 +49,7 @@ And this is a list of all the API's I use:
 The Piband is open source and fully customizable and additional scripts can be made by either editing the source code locally or creating python scripts, for example the [news script](https://github.com/bobmonkeywarts/piband/blob/master/src/news.py). This script is in a seperate file and can be started by the main script, piband.py. Then, when the user says "script news", it runs your custom script, making it an ideal platform for makers who want to add on to their virtual assistants.
 
 
-Video at https://tinyurl.com/the-piband! Github repository at https://github.com/bobmonkeywarts/piband.
+Video at https://tinyurl.com/the-piband! Github repository at https://github.com/jared-goodman/piband.
 
 August 11 edit: The Piband will be in the Seattle Mini Maker faire! After days of work, I have rebuilt the prototype but smaller and more compact (battery life is worse but shut up.) This is a picture of me wearing it:
 
